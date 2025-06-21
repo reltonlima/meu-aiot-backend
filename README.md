@@ -59,7 +59,7 @@ Para replicar este projeto, siga os três estágios de configuração:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+    git clone [https://github.com/reltonlima/meu-aiot-backend.git](https://github.com/reltonlima/meu-aiot-backend.git)
     ```
 2.  **Abra o Sketch:** Navegue até a pasta do firmware e abra o arquivo `.ino` na Arduino IDE.
 3.  **Instale as Bibliotecas:** Pelo Gerenciador de Bibliotecas, instale `PubSubClient` e `ArduinoJson`.
