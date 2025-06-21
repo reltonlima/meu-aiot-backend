@@ -303,12 +303,11 @@
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <script>
     // --- CONFIGURAÇÃO ---
-    // !!! CORREÇÃO APLICADA AQUI !!!
-    // Definimos o caminho completo para a nossa API na nuvem.
     const API_URL = 'https://aiot.pluga.shop'; 
 
     // --- CONFIGURAÇÃO MQTT (para o Frontend) ---
-    const MQTT_BROKER_URL = 'ws://broker.hivemq.com:8000/mqtt';
+    // !!! CORREÇÃO APLICADA AQUI !!! Usamos wss:// e a porta 8884 para conexões seguras.
+    const MQTT_BROKER_URL = 'wss://broker.hivemq.com:8884/mqtt'; 
     const MQTT_TOPICO_ESTADO = 'aiot/kit/esp32-01/estado';
     const MQTT_CLIENT_ID = 'aiot-frontend-' + Math.random().toString(16).substr(2, 8);
 
@@ -325,7 +324,6 @@
     async function sendApiCommand(endpoint) {
         try {
             updateStatus('Enviando comando...', false, true);
-            // !!! CORREÇÃO APLICADA AQUI !!! Usamos a API_URL completa.
             const response = await fetch(`${API_URL}${endpoint}`, { method: 'POST' });
 
             if (!response.ok) throw new Error('Falha na resposta do servidor.');
@@ -343,7 +341,7 @@
     // LÓGICA DE ESTADO (Receber atualizações via MQTT)
     // ======================================================
     
-    updateStatus('Conectando ao broker...', false, true);
+    updateStatus('Conectando ao broker (wss)...', false, true);
     const client = mqtt.connect(MQTT_BROKER_URL, { clientId: MQTT_CLIENT_ID });
 
     client.on('connect', () => {
