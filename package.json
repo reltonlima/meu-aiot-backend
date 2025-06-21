@@ -1,0 +1,25 @@
+{
+  "name": "meu-aiot-backend",
+  "version": "1.0.0",
+  "description": "Meu AIOT - Backend para controlar relés com MQTT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reltonlima/meu-aiot-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reltonlima/meu-aiot-backend/issues"
+  },
+  "homepage": "https://github.com/reltonlima/meu-aiot-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mqtt": "^5.13.1"
+  }
+}

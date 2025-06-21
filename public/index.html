@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIoT Control Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        /* Estilo inspirado em Plugashop */
+        :root {
+            --primary-color: #6d28d9;
+            --primary-hover: #5b21b6;
+            --background-color: #111827;
+            --card-color: #1f2937;
+            --text-color: #f9fafb;
+            --text-muted: #9ca3af;
+            --success-color: #22c55e;
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        main {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        
+        #status-indicator {
+            margin-top: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .global-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .relay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .relay-card {
+            background-color: var(--card-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .relay-card h2 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* The Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #374151; /* Cor de desligado */
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .site-footer {
+            width: 100%;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #374151; /* Linha divisória sutil */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Para telas pequenas */
+            gap: 15px;
+        }
+
+        .site-footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .site-footer p a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .site-footer p a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Ajuste para telas pequenas */
+        @media (max-width: 500px) {
+            .site-footer {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <header>
+            <h1>AIoT Control Deck</h1>
+            <p>Controle seus dispositivos com um clique.</p>
+            <p id="status-indicator" style="color: var(--text-muted);">Pronto</p>
+        </header>
+
+        <section class="global-controls">
+            <button class="btn" id="btn-all-on">Ligar Todos</button>
+            <button class="btn" id="btn-all-off">Desligar Todos</button>
+        </section>
+
+        <section class="relay-grid">
+            <div class="relay-card">
+                <h2>Relé 1</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="1">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 2</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="2">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 3</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="3">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 4</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="4">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 5</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="5">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 6</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="6">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 7</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="7">
+                    <span class="slider"></span>
+                </label>
+            </div>
+             <div class="relay-card">
+                <h2>Relé 8</h2>
+                <label class="switch">
+                    <input type="checkbox" class="relay-toggle" data-id="8">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+    <p>&copy; 2025 - Desenvolvido com ❤️ e muito café por <a href="#">Relton Lima</a>. Todos os direitos reservados.</p>
+    <div class="social-links">
+        <a href="https://github.com/reltonlima" target="_blank" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://linkedin.com/in/reltonfidelis" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+        </a>
+    </div>
+</footer>
+    </main>
+
+    <script>
+        // --- CONFIGURAÇÃO ---
+        // !!! IMPORTANTE: SUBSTITUA PELO IP DO SEU SERVIDOR NA DIGITALOCEAN !!!
+        const API_URL = 'http://localhost:3000';
+
+        // --- ELEMENTOS DO DOM ---
+        const statusIndicator = document.getElementById('status-indicator');
+        const relayToggles = document.querySelectorAll('.relay-toggle');
+        const btnAllOn = document.getElementById('btn-all-on');
+        const btnAllOff = document.getElementById('btn-all-off');
+        
+        // Função para atualizar o indicador de status na tela
+        function updateStatus(message, isError = false) {
+            statusIndicator.textContent = message;
+            statusIndicator.style.color = isError ? '#ef4444' : 'var(--success-color)';
+            
+            // Volta para o estado 'Pronto' depois de um tempo
+            setTimeout(() => {
+                statusIndicator.textContent = 'Pronto';
+                statusIndicator.style.color = 'var(--text-muted)';
+            }, 3000);
+        }
+
+        // Função principal para enviar comandos para um relé específico
+        async function controlRelay(id, state) {
+            try {
+                updateStatus(`Enviando comando para o relé ${id}...`);
+                const response = await fetch(`${API_URL}/api/rele/${id}/${state}`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Falha na comunicação com o servidor.');
+                }
+                
+                const result = await response.json();
+                console.log('Resposta do servidor:', result);
+                updateStatus(`Relé ${id} foi ${state === 'on' ? 'ligado' : 'desligado'}!`);
+
+            } catch (error) {
+                console.error('Erro ao controlar relé:', error);
+                updateStatus(`Erro: ${error.message}`, true);
+            }
+        }
+
+        // Função para enviar comandos gerais (ligar/desligar todos)
+        async function controlAll(action) {
+            try {
+                updateStatus(`Enviando comando geral: ${action}...`);
+                const response = await fetch(`${API_URL}/api/comando/${action}`, {
+                    method: 'POST'
+                });
+
+                 if (!response.ok) {
+                    throw new Error('Falha na comunicação com o servidor.');
+                }
+
+                const result = await response.json();
+                console.log('Resposta do servidor:', result);
+                updateStatus(`Todos os relés foram ${action === 'on' ? 'ligados' : 'desligados'}!`);
+
+                // Atualiza a interface de todos os toggles
+                relayToggles.forEach(toggle => {
+                    toggle.checked = (action === 'on');
+                });
+
+            } catch (error) {
+                console.error('Erro no comando geral:', error);
+                updateStatus(`Erro: ${error.message}`, true);
+            }
+        }
+
+
+        // --- ADICIONA OS EVENTOS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Eventos para cada toggle de relé
+            relayToggles.forEach(toggle => {
+                toggle.addEventListener('change', (event) => {
+                    const id = event.target.dataset.id;
+                    const state = event.target.checked ? 'on' : 'off';
+                    controlRelay(id, state);
+                });
+            });
+
+            // Eventos para os botões globais
+            btnAllOn.addEventListener('click', () => controlAll('on'));
+            btnAllOff.addEventListener('click', () => controlAll('off'));
+        });
+    </script>
+</body>
+</html>
