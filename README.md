@@ -1,14 +1,3 @@
-Fico feliz que tenha gostado\! É uma satisfação imensa ver um plano complexo se transformar em um produto funcional e elegante. E você está certíssimo, documentar é o passo que eleva um projeto de "código que funciona" para um "produto de engenharia".
-
-Um bom `README.md` é o cartão de visitas do seu projeto no GitHub. Ele deve ser claro, conciso e convidativo. Preparei um documento completo que você pode copiar e colar diretamente em um arquivo `README.md` na raiz do seu repositório Git.
-
-Ele foi escrito para impressionar, explicando não só *o que* o projeto faz, mas também *como* e *por quê*, demonstrando a profundidade do seu trabalho.
-
------
-
-Copie e cole todo o conteúdo abaixo no seu arquivo `README.md`.
-
-````markdown
 # AIoT Control Deck 🚀
 
 ### Um projeto Full-Stack de Automação Residencial (AIoT) para controlar um módulo de 8 relés via web, do ESP32 à nuvem.
@@ -22,9 +11,6 @@ Copie e cole todo o conteúdo abaixo no seu arquivo `README.md`.
 > **Nota do Desenvolvedor:** Este projeto é uma demonstração completa do ciclo de vida de um produto de Internet das Coisas (IoT), desde a programação de baixo nível de um microcontrolador até a criação de uma API na nuvem e uma interface de usuário moderna e responsiva.
 
 <br>
-
-![Demo do Projeto](https://i.imgur.com/8aLgq7V.gif) 
----
 
 ## 📖 Sobre o Projeto
 
@@ -40,8 +26,6 @@ O sistema permite o controle total sobre 8 canais de relé através de uma inter
 * **Arquitetura Desacoplada:** O hardware (ESP32), o backend (Node.js) e o frontend (HTML/CSS/JS) são totalmente independentes, comunicando-se através de um broker central.
 * **Backend como Ponte Segura:** Uma API Node.js atua como um intermediário seguro, recebendo requisições web e traduzindo-as para o protocolo MQTT.
 * **Firmware Robusto:** O código do ESP32 inclui reconexão automática ao Wi-Fi e ao broker MQTT, garantindo que o dispositivo permaneça online.
-
----
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -66,8 +50,6 @@ Este projeto é uma verdadeira demonstração de habilidades full-stack, combina
 * ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 * ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 * ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-
----
 
 ## 🚀 Configuração e Instalação
 
@@ -103,13 +85,9 @@ Para replicar este projeto, siga os três estágios de configuração:
 2.  **Configure a URL da API:** Encontre a constante `API_URL` no bloco `<script>` e substitua o valor `'http://IP_DO_SEU_SERVIDOR:3000'` pelo endereço IP público do seu servidor.
 3.  **Hospede o arquivo:** Para acessar de qualquer lugar (especialmente do celular), hospede o arquivo `index.html` em um servidor web (pode ser no mesmo Droplet com Nginx/Apache) ou use um serviço como Netlify, Vercel ou GitHub Pages.
 
----
-
 ##  license Licença
 
 Distribuído sob a Licença MIT. Veja o arquivo `LICENSE` para mais informações.
-
----
 
 ## 👤 Contato
 
@@ -123,4 +101,3 @@ Distribuído sob a Licença MIT. Veja o arquivo `LICENSE` para mais informaçõe
 <p align="center">
   Desenvolvido com ❤️ e muito café.
 </p>
-````
